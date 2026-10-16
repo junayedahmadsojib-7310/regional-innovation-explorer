@@ -1,114 +1,139 @@
 # U.S. Regional Innovation Explorer
 
-Interactive Streamlit extension of the M1 HistPat county innovation assignment.
+An interactive Streamlit extension of the M1 HistPat county innovation assignment.
 
-## What this adds
-The analytical notebook establishes the results, and the A4 infographic communicates the main findings. This app adds a county-level exploration and decision-support layer without rerunning the full HistPat workflow.
+## Project extension
 
-The final product has only three analysis pages:
+As an extension to the required assignment, and to reflect the additional scope of a five-member group, we developed an interactive decision-support application for U.S. state and regional economic-development agencies.
 
-1. **County Innovation Explorer** — integrates county technology profile, observed vs out-of-fold predicted patent intensity, and A61 adoption history.
-2. **Technology Landscape** — explores CPC 3-digit specialization using RSCA, LQ, and patent activity.
-3. **A61 Diffusion Explorer** — explores diffusion by decade and thresholds 5/10/20 and compares adoption with spatial concentration.
+The analytical notebook remains the core assignment. The Streamlit application operationalizes the validated outputs from Parts 1–3, allowing the results to be explored interactively at county level without changing the underlying analysis.
 
-## Step 1 — Export the notebook results
+## Live application
 
-Open the completed assignment notebook and add the contents of:
+**Streamlit application:**  
+https://regional-innovation-explorer.streamlit.app/
 
-`notebook_export_cell.py`
+**Assignment notebook / repository:**  
+https://colab.research.google.com/drive/1SP00WP6rGvZXF1-yEbo4lHPMR-RXLmmQ?usp=sharing
 
-as the **last code cell after Part 4**. Run it after all Parts 1–4 have executed successfully.
+---
 
-It creates a folder named:
+## Purpose
 
-`streamlit_export/`
+The notebook answers the analytical research questions, while the A4 infographic communicates the main conclusions.
 
-with these files:
+The Streamlit extension adds a third layer:
 
-- `county_master.csv`
-- `county_specialization.csv`
-- `a61_county_decade.csv`
-- `a61_diffusion_summary.csv`
-- `a61_moran_summary.csv`
-- `model_metrics.csv`
-- `model_importance.csv`
-- `county_geometry.geojson`
+> **interactive regional exploration and decision support.**
 
-Copy all eight files into this project's `data/` folder.
+It allows a user to investigate how technological specialization, regional innovation characteristics, and technology diffusion come together for individual U.S. counties.
 
-## Step 2 — Install dependencies
+The central question is:
 
-From a terminal opened inside this project folder:
+> **Where is technological capability emerging, where is it deepening, and where are established innovation ecosystems concentrated?**
 
-```bash
-python -m venv .venv
-```
+---
 
-Windows:
+## Application
 
-```bash
-.venv\Scripts\activate
-python -m pip install -r requirements.txt
-```
+The application contains three analytical explorers.
 
-macOS/Linux:
+### 1. County Innovation Explorer
 
-```bash
-source .venv/bin/activate
-python -m pip install -r requirements.txt
-```
+Select a state and county to view an integrated regional innovation profile combining:
 
-## Step 3 — Run the app
+- technological portfolio and specialization;
+- technology breadth and diversification;
+- observed patent intensity;
+- five-fold out-of-fold predicted patent intensity;
+- observed-versus-predicted model residual;
+- regional predictor values;
+- A61 adoption history and first threshold crossing.
 
-```bash
-python -m streamlit run app.py
-```
+This page integrates the main outputs from Parts 1–3 around a single county.
 
-On Windows, after dependencies are installed, you can also double-click `run_windows.bat`.
+### 2. Technology Landscape
+
+Explore county technological specialization for CPC 3-digit technologies using:
+
+- Revealed Symmetric Comparative Advantage (RSCA);
+- Location Quotient (LQ);
+- fractional patent activity;
+- county rankings;
+- technology breadth and portfolio context.
+
+The cluster solution is presented only as an exploratory summary because the final clusters are weakly separated.
+
+### 3. A61 Diffusion Explorer
+
+Explore the geographic diffusion of **A61 — Medical or Veterinary Science; Hygiene** through:
+
+- six consecutive decades from 1950–1959 to 2000–2009;
+- adoption thresholds of 5, 10, or 20 patents;
+- interactive county adoption maps;
+- period and cumulative adoption;
+- diffusion trajectories;
+- binary-adoption Moran's I;
+- patent-intensity Moran's I.
+
+This allows users to distinguish geographic technology entry from deeper inventive concentration.
+
+---
+
+## Key analytical findings
+
+The application is built from the validated assignment results.
+
+- County technological profiles can be summarized into broader/higher-activity and narrower/lower-activity groups, although cluster separation is weak and the groups should not be interpreted as fixed technological types.
+- Random Forest provides the strongest predictive performance among the evaluated models, with educational attainment providing the strongest predictive signal among the three included regional variables.
+- A61 participation expanded substantially across U.S. counties between the 1950s and 2000s.
+- By 2000–2009, **778 counties (25.1%)** had ever crossed the main ≥10-patent adoption threshold.
+- Geographic participation spread more widely, while high-intensity inventive activity remained spatially concentrated.
+- In the 2000s, Moran's I was approximately **0.381 for binary adoption** and **0.567 for patent intensity**.
+
+These results motivate the distinction between **technology entry** and **sustained innovation depth**.
+
+---
+
+## Intended audience
+
+The application is designed for:
+
+**U.S. state and regional economic-development agencies responsible for innovation and technology-based growth.**
+
+It is intended as a **screening and diagnostic tool**, helping users identify places that may warrant deeper investigation.
+
+It is not designed to prescribe causal policy interventions.
+
+---
 
 ## Interpretation boundaries
 
-This application is designed for **regional screening and diagnosis**, not causal policy prescription.
+The following limitations from the analytical notebook also apply to the application:
 
-- Part 1 cluster profiles are weakly separated broad portfolio summaries, not fixed regional technology types.
-- Part 2 uses out-of-fold predictions for county exploration. A residual does not identify a causal mechanism.
-- The assignment's official model evaluation remains the held-out test metrics in the notebook.
-- A61 adoption thresholds describe patent participation; they do not measure commercial adoption.
-- Moran's I measures spatial association, not causal diffusion between neighboring counties.
+- Part 1 cluster profiles are broad exploratory summaries, not fixed regional technology types.
+- Part 2 is predictive rather than causal.
+- Out-of-fold county predictions are used for interactive screening; they do not identify causal mechanisms.
+- The official model evaluation remains the held-out test performance reported in the notebook.
+- A61 patent thresholds measure patent participation, not commercial technology adoption.
+- Moran's I measures spatial association and does not demonstrate causal diffusion between neighboring counties.
+- The latest period in the historical diffusion analysis is 2000–2009 and should not be interpreted as the present-day state of A61.
 
-## Repository layout
+---
+
+## Data-product architecture
+
+The Streamlit application does not rerun the full HistPat analytical pipeline.
+
+Instead, the completed notebook exports validated application-ready datasets:
 
 ```text
-regional_innovation_explorer/
-├── app.py
-├── pages/
-│   ├── 1_County_Innovation_Explorer.py
-│   ├── 2_Technology_Landscape.py
-│   └── 3_A61_Diffusion_Explorer.py
-├── utils/
-│   ├── data.py
-│   ├── charts.py
-│   └── ui.py
-├── data/
-│   └── [eight notebook exports go here]
-├── .streamlit/
-│   └── config.toml
-├── notebook_export_cell.py
-├── PROJECT_SCOPE.md
-├── requirements.txt
-└── README.md
-```
-
-## Interface redesign
-
-The application uses a custom visual system rather than Streamlit's default dashboard styling:
-
-- branded gradient hero and dark navigation sidebar
-- custom KPI cards and status chips
-- large evidence-first county maps
-- visual county specialization rankings
-- integrated observed-vs-predicted county profile
-- interactive A61 diffusion and threshold-sensitivity graphics
-- consistent methodological cautions without cluttering the main decision flow
-
-The design deliberately keeps the analytical outputs unchanged. The redesign affects presentation and interaction only.
+Analytical data
+      ↓
+Final assignment notebook
+      ↓
+Validated analytical outputs
+      ↓
+CSV / GeoJSON export layer
+      ↓
+Streamlit application
